@@ -7,7 +7,7 @@ import timber.log.Timber
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
     fun buttonClicked(view: View) {
-        val result = executeTransaction { transaction, context ->
+        val result = executeInTransaction { transaction, context ->
             // Method code start
             (0..100000).map {
                 Item("${transaction.id} - $it")
@@ -18,7 +18,7 @@ class HomeActivity : AppCompatActivity(R.layout.activity_home) {
     }
 
     fun anotherMethod() {
-        executeTransaction { transaction, interceptContext ->
+        executeInTransaction { transaction, interceptContext ->
             // Actual method code
         }
     }
