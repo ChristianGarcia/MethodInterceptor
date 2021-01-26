@@ -2,19 +2,18 @@ package uk.co.origamibits.methodinterceptor
 
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import timber.log.Timber
 
 class HomeActivity : AppCompatActivity(R.layout.activity_home) {
 
     fun buttonClicked(view: View) {
-        val result = executeInTransaction { transaction, context ->
+        val result = executeInTransactionWithResult { transaction, context ->
             // Method code start
             (0..100000).map {
                 Item("${transaction.id} - $it")
             }
             // Method code end
         }
-        Timber.d("List size is %s", result.size)
+        // We can use Result (Error or Success) in here to decide further stuff
     }
 
     fun anotherMethod() {
