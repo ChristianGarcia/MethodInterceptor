@@ -4,7 +4,7 @@ import timber.log.Timber
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun <T> intercept(block: (Transaction, InterceptContext) -> T): T {
+fun <T> executeTransaction(block: (Transaction, InterceptContext) -> T): T {
     Timber.d("Before. Measuring method")
     val transaction = Transaction(
         id = UUID.randomUUID().toString()
