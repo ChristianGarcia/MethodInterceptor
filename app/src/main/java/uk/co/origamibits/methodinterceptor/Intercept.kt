@@ -4,12 +4,12 @@ import timber.log.Timber
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun <T> executeInTransaction(block: (Transaction, InterceptContext) -> T): T {
+fun <T> executeInTransaction(block: (Transaction, ExecutionContext) -> T): T {
     Timber.d("Before. Measuring method")
     val transaction = Transaction(
         id = UUID.randomUUID().toString()
     )
-    val context = InterceptContext(
+    val context = ExecutionContext(
         data = mapOf(
             "key0" to "value0",
             "key2" to "value1"
@@ -27,6 +27,6 @@ data class Transaction(
     val id: String
 )
 
-data class InterceptContext(
+data class ExecutionContext(
     val data: Map<String, Any>
 )
