@@ -1,10 +1,12 @@
+@file:kotlin.jvm.JvmName("ExecuteInTransactionKt")
+
 package uk.co.origamibits.methodinterceptor
 
 import timber.log.Timber
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-fun <T> executeInTransactionWithResult(block: (Transaction, ExecutionContext) -> T): Result<T> {
+inline fun <T> executeInTransactionWithResult(block: (Transaction, ExecutionContext) -> T): Result<T> {
     Timber.d("Before. Measuring method")
     val transaction = Transaction(
         id = UUID.randomUUID().toString()
@@ -31,7 +33,7 @@ fun <T> executeInTransactionWithResult(block: (Transaction, ExecutionContext) ->
     return result
 }
 
-fun executeInTransaction(block: (Transaction, ExecutionContext) -> Unit) {
+inline fun executeInTransaction(block: (Transaction, ExecutionContext) -> Unit) {
     Timber.d("Before. Measuring method")
     val transaction = Transaction(
         id = UUID.randomUUID().toString()
@@ -52,17 +54,4 @@ fun executeInTransaction(block: (Transaction, ExecutionContext) -> Unit) {
         }
     }
     Timber.d("After. Time spent %s ms", executionTime)
-}
-
-data class Transaction(
-    val id: String
-)
-
-data class ExecutionContext(
-    val data: Map<String, Any>
-)
-
-sealed class Result<out Any> {
-    data class Error(val t: Throwable) : Result<Nothing>()
-    data class Success<T>(val value: T) : Result<T>()
 }
